@@ -130,6 +130,25 @@ namespace DerivcoKitchenClient.Controllers
             }
         }
 
+        [NonAction]
+        private async Task<PurchaseOrderResp> CreatePurchaseOrder()
+        {
+            List<LineItemReq> _lineItems = new();
+
+            foreach (var item in HttpContext.Session.Get<PurchaseOrderSessionModel>("PurchaseOrderSessionModel").LineItems)
+            {
+                _lineItems.Add(new LineItemReq()
+                {
+                    MenuItemId = item.MenuItemId,
+                    PictureFileName = item.PictureFileName,
+                    Quantity = item.Quantity,
+                    Price = item.Price
+                });
+            }
+
+            return await PurchaseOrderBLL.CreatePurchaseOrder(GetUsernameFromSession, _lineItems);
+        }
+
         public async Task<ActionResult> Index()
         {
             InitialisePurchaseOrderSessionModelIfNull();
@@ -295,25 +314,6 @@ namespace DerivcoKitchenClient.Controllers
         public ActionResult CustomerAuthentication()
         {
             return View();
-        }
-
-        [NonAction]
-        private async Task<PurchaseOrderResp> CreatePurchaseOrder()
-        {
-            List<LineItemReq> _lineItems = new();
-
-            foreach (var item in HttpContext.Session.Get<PurchaseOrderSessionModel>("PurchaseOrderSessionModel").LineItems)
-            {
-                _lineItems.Add(new LineItemReq()
-                {
-                    MenuItemId = item.MenuItemId,
-                    PictureFileName = item.PictureFileName,
-                    Quantity = item.Quantity,
-                    Price = item.Price
-                });
-            }
-
-            return await PurchaseOrderBLL.CreatePurchaseOrder(GetUsernameFromSession, _lineItems);
         }
 
         [HttpGet]
