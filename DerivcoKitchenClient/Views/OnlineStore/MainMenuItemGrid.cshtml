@@ -1,0 +1,36 @@
+﻿@model DerivcoKitchenClient.Models.OnlineStore.MainMenuItemGridModel
+
+<div class="main-shop-menu">
+    <h2>WELCOME TO DERIVCO KITCHEN</h2>
+    <div class="shop-menu">
+        <div class="menu-category">
+            <div id="menuCategoryDiv" class="scroll-horizontal-menu">
+                @foreach (var menuCategory in Model.MenuCategories)
+                {
+                    if (HttpContextAccessor.HttpContext.Session.GetString("MenuCategoryName") == menuCategory.Name)
+                    {
+                        <input id="@menuCategory.Name" type="button" class="button-9E0000" value="@menuCategory.Name.ToUpper()" onclick='searchMenuItemsByMenuCategoryName("@menuCategory.Name")' />
+                    }
+                    else
+                    {
+                        <input id="@menuCategory.Name" type="button" class="button-none" value="@menuCategory.Name.ToUpper()" onclick='searchMenuItemsByMenuCategoryName("@menuCategory.Name")' />
+                    }
+                }
+            </div>
+        </div>
+        <div class="main-search">
+            <div class="sub-search" onclick="searchItem()">
+                <div class="inner-search">
+                    <div class="search-icon"></div>
+                    <h1>WHAT CAN WE HELP YOU FIND?</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="item-body">
+    @{
+        await Html.RenderPartialAsync("SubMenuItemGrid", Model.MenuItems);
+    }
+</div>
+<input id="hdName" type="hidden" value="@HttpContextAccessor.HttpContext.Session.GetString("Name")" />

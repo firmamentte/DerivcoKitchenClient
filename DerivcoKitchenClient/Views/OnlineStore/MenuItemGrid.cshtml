@@ -1,0 +1,23 @@
+﻿@model List<DerivcoKitchenClient.Models.OnlineStore.MenuItemGridModel>
+
+@foreach (var item in Model)
+{
+    <div class="item">
+        <div class="item-pic">
+            <div class="pic-slide current">
+                <img alt="item picture" src="@item.PictureFileName" />
+            </div>
+        </div>
+        <div class="item-row">
+            <label class="field-label">@item.Name</label>
+        </div>
+        <div class="item-row">
+            <div class="sale-price-div">
+                <label class="field-label-00AEFF">@StaticClass.EnumHelper.GetEnumDescription(StaticClass.EnumHelper.CurrencyCode.Code) @item.Price.ToString("N")</label>
+            </div>
+        </div>
+        <nav>
+            <input type="button" class="button" value="ORDER NOW" onclick='orderItem("@item.MenuItemId")' />
+        </nav>
+    </div>
+}
