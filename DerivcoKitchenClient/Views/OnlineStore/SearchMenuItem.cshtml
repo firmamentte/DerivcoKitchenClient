@@ -3,7 +3,7 @@
 <div class="popup-form-medium">
     <form id="formSearchItem" asp-antiforgery="true">
         <fieldset>
-            <h1>SEARCH MENU ITEMS</h1>
+            <h1>SEARCH @HttpContextAccessor.HttpContext.Session.GetString("MenuCategoryName").ToUpper() ITEMS</h1>
             <input asp-for="Name" class="text-box" placeholder="Name (Optional)" />
             <div id="messageSearchItem" class="message-label"></div>
             <nav>
